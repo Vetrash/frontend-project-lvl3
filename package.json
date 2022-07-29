@@ -1,12 +1,12 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/Vetrash/frontend-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/Vetrash/frontend-project-lvl3/actions)\r [![Maintainability](https://api.codeclimate.com/v1/badges/249e949fa35bbcf4c272/maintainability)](https://codeclimate.com/github/Vetrash/frontend-project-lvl3/maintainability)\r [![Actions Status](https://github.com/Vetrash/frontend-project-lvl3/workflows/auto-test/badge.svg)]\r <a href=\"https://codeclimate.com/github/Vetrash/frontend-project-lvl3/test_coverage\"><img src=\"https://api.codeclimate.com/v1/badges/249e949fa35bbcf4c272/test_coverage\" /></a>",
+  "description": "RSS агрегатор",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode=development",
-    "prod": "webpack --mode=production",
+    "build": "webpack --mode=development --node-env=production",
+    "prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve",
     "lint": "eslint ."
