@@ -7,17 +7,18 @@ const schema = (url, RSS) => yup
   .notOneOf(RSS, 'dublication')
   .validate(url);
 
-  const validate = async (state) => {
-    const RSS = state.RSS;
-    const url = state.form.value;    
-    await schema(url, RSS)
-      .then(() => {
-        state.form.error = null;
-        state.form.valid = true;        
-      })
-      .catch((err) => {
-        state.form.error = err.errors.toString();
-        state.form.valid = false;
-      });
-  };
-  export default validate;
+const validate = (state) => {
+  const st = state;
+  const { RSS } = state;
+  const url = state.form.value;
+  schema(url, RSS)
+    .then(() => {
+      st.form.log = null;
+      st.form.valid = true;
+    })
+    .catch((err) => {
+      st.form.log = err.errors.toString();
+      st.form.valid = false;
+    });
+};
+export default validate;

@@ -1,10 +1,9 @@
-export default (value,key, list) =>{    
-    for (const elem of list){ 
-       if (elem[key] === value) {            
-            return true;
-        } 
-    };   
-    return false
-}
-
-  
+export default (value, key, list) => {
+  let solution = false;
+  list.forEach((elem) => {
+    if (elem[key] === value) {
+      solution = true;
+    }
+  });
+  return solution;
+};

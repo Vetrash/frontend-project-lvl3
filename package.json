@@ -4,7 +4,6 @@
   "description": "RSS агрегатор",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=development --node-env=production",
     "prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
@@ -25,6 +24,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
+    "@playwright/test": "^1.24.2",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
@@ -39,7 +39,9 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "dom-parser": "^0.1.6",
+    "eslint-config-airbnb-base": "^15.0.0",
     "i18next": "^21.8.16",
+    "melanke-watchjs": "^1.5.2",
     "yup": "^0.32.11"
   }
 }
