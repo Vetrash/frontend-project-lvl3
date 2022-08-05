@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "RSS агрегатор",
-  "main": "src/index.js",
+  "main": "src/app.js",
   "scripts": {
     "build": "webpack --mode=development --node-env=production",
     "prod": "webpack --mode=production --node-env=production",
