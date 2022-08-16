@@ -13,6 +13,7 @@ export default (state) => {
   const promises = RSS.map((elem) => axios.get(getProxyUrl(elem))
     .then((res) => {
       //console.log(res);
+      input.value = '';
       parserRSS(state, res.data.contents);
     })
     .catch((res) => {
@@ -22,7 +23,7 @@ export default (state) => {
       } else {
        // st.form.log = 'notFound';
       }
-      input.value = st.form.value;
+      //input.value = st.form.value;
     }));
 
   Promise.all(promises)

@@ -36,7 +36,7 @@ export default () => {
     e.preventDefault();
     if (state.form.valid === true) {
       input.classList.remove('border', 'border-3', 'border-danger');
-      input.value = '';
+      //input.value = '';
       input.focus();
       state.RSS.push(state.form.value);
       state.form.log = 'sending';
