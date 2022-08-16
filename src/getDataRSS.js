@@ -12,15 +12,15 @@ export default (state) => {
   const { RSS } = state;
   const promises = RSS.map((elem) => axios.get(getProxyUrl(elem))
     .then((res) => {
-      console.log(res);
+      //console.log(res);
       parserRSS(state, res.data.contents);
     })
     .catch((res) => {
-      console.log(res);
+      //console.log(res);
       if (res.status >= 500) {
         st.form.log = 'problemsNetwork';
       } else {
-        st.form.log = 'notFound';
+       // st.form.log = 'notFound';
       }
       input.value = st.form.value;
     }));
