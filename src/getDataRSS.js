@@ -3,25 +3,30 @@ import parserRSS from './parserRSS.js';
 
 const getProxyUrl = (url) => {
   const proxy = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`;
-  //const feedUrl = new URL(url);
-  //const proxyUrl = new URL(`${feedUrl.host}${feedUrl.pathname}`, proxy);
-  //console.log(proxyUrl.href);
-  //return proxyUrl.href;
-  //console.log(proxy);
   return proxy;
 };
+const input = document.querySelector('input.form-control');
 
 export default (state) => {
   const st = state;
   const { RSS } = state;
   const promises = RSS.map((elem) => axios.get(getProxyUrl(elem))
     .then((res) => {
-      //console.log(res);
       parserRSS(state, res.data.contents);
     })
-    .catch(() => { st.form.log = 'errorLoadOne'; }));
-  Promise.all(promises);
-  if (st.form.log === 'sending') {
-    st.form.log = 'finished';
-  }
+    .catch((res) => {
+      if (res.status >= 500) {
+        st.form.log = 'problemsNetwork';
+      } else {
+        st.form.log = 'notFound';
+      }
+      input.value = st.form.value;
+    }));
+
+  Promise.all(promises)
+    .then(() => {
+      if (st.form.log === 'sending') {
+        st.form.log = 'finished';
+      }
+    });
 };

@@ -24,7 +24,7 @@ export default () => {
     state.form.value = e.target.value;
     validate(state);
   };
-  
+
   input.addEventListener('input', UpdateInput);
 
   const updatePosts = () => {

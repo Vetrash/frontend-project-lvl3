@@ -8,20 +8,15 @@ export default (typeLog) => {
       errLog.classList.add('text-warning');
       errLog.textContent = i18n.t(`processState.${typeLog}`);
       break;
-    case 'errorLoadAll':
-      errLog.classList.add('text-warning');
-      errLog.textContent = i18n.t(`processState.${typeLog}`);
-      break;
-    case 'errorLoadOne':
-      errLog.classList.add('text-warning');
-      errLog.textContent = i18n.t(`processState.${typeLog}`);
-      break;
     case 'finished':
       errLog.classList.add('text-success');
       errLog.textContent = i18n.t(`processState.${typeLog}`);
       break;
     case 'invalid':
     case 'dublication':
+    case 'problemsNetwork':
+    case 'notFound':
+    case 'UnknownError':
       errLog.classList.add('text-danger');
       errLog.textContent = i18n.t(`error.${typeLog}`);
       break;

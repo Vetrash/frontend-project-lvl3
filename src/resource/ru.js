@@ -1,15 +1,15 @@
 export default {
   translation: {
     error: {
-      invalid: 'Пожалуйста, введите действительный URL-адрес.',
-      dublication: 'Этот RSS уже существует. Пожалуйста, введите новый RSS.',
+      invalid: 'Ссылка должна быть валидным URL',
+      dublication: 'RSS уже существует',
+      problemsNetwork: 'Ошибка сети',
+      notFound: 'Ресурс не содержит валидный RSS',
+      UnknownError: 'Упс... Произошла неизвесная ошибка',
     },
     processState: {
       sending: 'Загрузка...',
-      finished: 'RSS успешно загружена',
-      errorLoadAll: 'Ответ от сервера небыл получен, попробуйте снова',
-      errorLoadOne: 'Один из RSS завершился с ошибкой',
-      UnknownError: 'Упс... Произошла неизвесная ошибка',
+      finished: 'RSS успешно загружен',
     },
   },
 };
