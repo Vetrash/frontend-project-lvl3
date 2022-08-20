@@ -5,31 +5,21 @@ const getProxyUrl = (url) => {
   const proxy = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`;
   return proxy;
 };
-const input = document.querySelector('input.form-control');
 
-export default (state) => {
+export default (state, url) => {
   const st = state;
-  const { RSS } = state;
-  const promises = RSS.map((elem) => axios.get(getProxyUrl(elem))
+  axios.get(getProxyUrl(url))
     .then((res) => {
-      //console.log(res);
-      input.value = '';
       parserRSS(state, res.data.contents);
+      if (st.form.log === 'sending') {
+        st.form.log = 'finished';
+      }
     })
     .catch((res) => {
-      //console.log(res);
       if (res.status >= 500) {
         st.form.log = 'problemsNetwork';
       } else {
-       // st.form.log = 'notFound';
-      }
-      //input.value = st.form.value;
-    }));
-
-  Promise.all(promises)
-    .then(() => {
-      if (st.form.log === 'sending') {
-        st.form.log = 'finished';
+        st.form.log = 'notFound';
       }
     });
 };

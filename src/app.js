@@ -28,7 +28,9 @@ export default () => {
   input.addEventListener('input', UpdateInput);
 
   const updatePosts = () => {
-    getDataRSS(state);
+    state.RSS.forEach((elem) => {
+      getDataRSS(state, elem);
+    });
     setTimeout(updatePosts, 5000);
   };
 
@@ -36,11 +38,11 @@ export default () => {
     e.preventDefault();
     if (state.form.valid === true) {
       input.classList.remove('border', 'border-3', 'border-danger');
-      //input.value = '';
+      input.value = '';
       input.focus();
       state.RSS.push(state.form.value);
       state.form.log = 'sending';
-      getDataRSS(state);
+      getDataRSS(state, state.form.value);
     } else {
       input.classList.add('border', 'border-3', 'border-danger');
     }
