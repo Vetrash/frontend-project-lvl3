@@ -1,10 +1,7 @@
 import axios from 'axios';
 import parserRSS from './parserRSS.js';
 
-const getProxyUrl = (url) => {
-  const proxy = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`;
-  return proxy;
-};
+const getProxyUrl = (url) => new URL(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`);
 
 export default (state, url) => {
   const st = state;
