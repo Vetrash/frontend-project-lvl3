@@ -7,16 +7,17 @@ export default (state, url) => {
   const st = state;
   axios.get(getProxyUrl(url))
     .then((res) => {
-      if (res.status >= 500) {
-        st.form.log = 'problemsNetwork';
-      } else {
-        parserRSS(state, res.data.contents);
-        if (st.form.log === 'sending') {
-          st.form.log = 'finished';
-        }
+      parserRSS(state, res.data.contents);
+      if (st.form.log === 'sending') {
+        st.form.log = 'finished';
       }
     })
-    .catch(() => {
-      st.form.log = 'notFound';
+    .catch((err) => {
+      st.form.log = 'UnknownError';
+      if (err.response) {
+        st.form.log = 'problemsNetwork';
+      } else {
+        st.form.log = 'notFound';
+      }
     });
 };
