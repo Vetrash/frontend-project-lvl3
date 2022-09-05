@@ -1,12 +1,29 @@
-import { watch } from 'melanke-watchjs';
-import renderPosts from '../renders/Rpost.js';
-import renderFeeds from '../renders/Rfeed.js';
-import loger from '../loger.js';
-import buttonsEvent from './buttonsEvent.js';
+import onChange from 'on-change';
 
-export default (state) => {
-  buttonsEvent(state);
-  watch(state, 'feeds', () => renderFeeds(state.feeds));
-  watch(state, 'posts', () => renderPosts(state.posts));
-  watch(state.form, 'log', () => loger(state.form.log));
-};
+import {
+  renderValidate, renderFeeds, renderPosts, renderLog,
+} from '../renders/render.js';
+
+export default (state) => onChange(state, (path, value) => {
+  const redactPath = /posts...viewed/.test(path) ? 'posts' : path;
+  switch (redactPath) {
+    case 'feeds':
+      renderFeeds(state.feeds);
+      break;
+    case 'posts':
+      renderPosts(state.posts);
+      break;
+    case 'form.log':
+      renderLog(value);
+      break;
+    case 'form.value':
+      break;
+    case 'RSS':
+      break;
+    case 'form.valid':
+      renderValidate(value);
+      break;
+    default:
+      throw new Error(`Unknown path: ${path}`);
+  }
+});

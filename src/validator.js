@@ -11,6 +11,7 @@ const validate = (state) => {
   const st = state;
   const { RSS } = state;
   const url = state.form.value;
+
   schema(url, RSS)
     .then(() => {
       st.form.log = null;
