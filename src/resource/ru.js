@@ -5,6 +5,7 @@ export default {
       dublication: 'RSS уже существует',
       problemsNetwork: 'Ошибка сети',
       notFound: 'Ресурс не содержит валидный RSS',
+      ErrorParser: 'Ошибка парсера RSS',
       UnknownError: 'Упс... Произошла неизвесная ошибка',
     },
     processState: {

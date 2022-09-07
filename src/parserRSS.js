@@ -6,18 +6,27 @@ export default (state, data) => {
   const item = Array.from(doc.querySelectorAll('item'));
   const feedTitle = doc.querySelector('title').textContent;
   const feedDescription = doc.querySelector('description').textContent;
-
-  if (!containsObject(feedTitle, 'title', state.feeds)) {
-    state.feeds.push({ title: feedTitle, description: feedDescription });
+  const feeds = [...state.feeds];
+  if (!containsObject(feedTitle, 'title', feeds)) {
+    feeds.push({ title: feedTitle, description: feedDescription });
   }
+  const posts = [...state.posts];
   item.forEach((elem) => {
     const title = elem.children[0].textContent;
     const link = elem.children[2].textContent;
     const description = elem.children[3].textContent;
-    if (!containsObject(title, 'title', state.posts)) {
-      state.posts.push({
+    if (!containsObject(title, 'title', posts)) {
+      posts.push({
         title, link, description, viewed: false,
       });
     }
   });
+
+  const parseError = doc.querySelector('parsererror');
+  if (parseError) {
+    const error = new Error();
+    error.isParsingError = true;
+    throw error;
+  }
+  return { feeds, posts };
 };
