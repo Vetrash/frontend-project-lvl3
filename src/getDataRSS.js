@@ -20,7 +20,7 @@ export default (state, url) => {
         st.form.log = 'ErrorParser';
       } else if (err.response) {
         st.form.log = 'problemsNetwork';
-      } else if (err.request) {
+      } else {
         st.form.log = 'notFound';
       }
     });
