@@ -18,11 +18,9 @@ export default (state, url) => {
       st.form.log = 'UnknownError';
       if (err.isParsingError) {
         st.form.log = 'ErrorParser';
-      }
-      if (err.response) {
+      } else if (err.response) {
         st.form.log = 'problemsNetwork';
-      }
-      if (err.request) {
+      } else if (err.request) {
         st.form.log = 'notFound';
       }
     });
