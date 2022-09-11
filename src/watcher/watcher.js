@@ -2,7 +2,7 @@ import onChange from 'on-change';
 
 import {
   renderValidate, renderFeeds, renderPosts, renderLog, renderModal,
-} from '../renders/render.js';
+} from './render.js';
 
 export default (state, elements) => onChange(state, (path) => {
   const { modalIndex } = state;

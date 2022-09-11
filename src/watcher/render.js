@@ -12,9 +12,9 @@ export const renderValidate = (state, elem) => {
 };
 
 const getList = (items, type) => {
-  if (items.length === 0 || !(['post', 'feed'].includes(type))) { return ''; }
   const ul = document.createElement('ul');
   ul.classList.add('list-group', 'border-0', 'rounded-0');
+  if (items.length === 0 || !(['post', 'feed'].includes(type))) { return ul; }
   items.forEach((item, index) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'border-0', 'border-end-0');
@@ -55,7 +55,7 @@ const getList = (items, type) => {
 
 export const renderFeeds = (state) => {
   const { feeds } = state;
-  if (feeds.length === 0) { return ''; }
+  if (feeds.length === 0) { return; }
   const feed = document.querySelector('.feeds');
   feed.textContent = '';
   const h2 = document.createElement('h2');
@@ -63,12 +63,11 @@ export const renderFeeds = (state) => {
   h2.textContent = 'Фиды';
   feed.appendChild(h2);
   feed.appendChild(getList(feeds, 'feed'));
-  return '';
 };
 
 export const renderPosts = (state) => {
   const { posts } = state;
-  if (posts.length === 0) { return ''; }
+  if (posts.length === 0) { return; }
   const post = document.querySelector('.posts');
   post.textContent = '';
   const h2 = document.createElement('h2');
@@ -77,7 +76,6 @@ export const renderPosts = (state) => {
   post.appendChild(h2);
   const list = getList(posts, 'post');
   post.appendChild(list);
-  return '';
 };
 
 export const renderLog = (state, elem) => {
@@ -114,5 +112,4 @@ export const renderModal = (state, elem) => {
   elements.modalTitle.textContent = state.posts[index].title;
   elements.modalBody.textContent = state.posts[index].description;
   elements.modalFooter.setAttribute('href', state.posts[index].link);
-  return '';
 };
