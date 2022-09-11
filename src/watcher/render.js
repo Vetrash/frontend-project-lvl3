@@ -1,13 +1,13 @@
 import i18n from 'i18next';
 
 export const renderValidate = (state, elem) => {
-  const elements = elem;
+  const { input } = elem;
   const { valid } = state.form;
   if (valid === true) {
-    elements.input.classList.remove('border', 'border-3', 'border-danger');
-    elements.input.focus();
+    input.classList.remove('border', 'border-3', 'border-danger');
+    input.focus();
   } else {
-    elements.input.classList.add('border', 'border-3', 'border-danger');
+    input.classList.add('border', 'border-3', 'border-danger');
   }
 };
 
@@ -79,17 +79,17 @@ export const renderPosts = (state) => {
 };
 
 export const renderLog = (state, elem) => {
-  const elements = elem;
+  const { errLog } = elem;
   const typeLog = state.form.log;
-  elements.errLog.classList.remove('text-success', 'text-warning', 'text-danger');
+  errLog.classList.remove('text-success', 'text-warning', 'text-danger');
   switch (typeLog) {
     case 'sending':
-      elements.errLog.classList.add('text-warning');
-      elements.errLog.textContent = i18n.t(`processState.${typeLog}`);
+      errLog.classList.add('text-warning');
+      errLog.textContent = i18n.t(`processState.${typeLog}`);
       break;
     case 'finished':
-      elements.errLog.classList.add('text-success');
-      elements.errLog.textContent = i18n.t(`processState.${typeLog}`);
+      errLog.classList.add('text-success');
+      errLog.textContent = i18n.t(`processState.${typeLog}`);
       break;
     case 'invalid':
     case 'dublication':
@@ -97,19 +97,19 @@ export const renderLog = (state, elem) => {
     case 'notFound':
     case 'UnknownError':
     case 'ErrorParser':
-      elements.errLog.classList.add('text-danger');
-      elements.errLog.textContent = i18n.t(`error.${typeLog}`);
+      errLog.classList.add('text-danger');
+      errLog.textContent = i18n.t(`error.${typeLog}`);
       break;
     default:
-      elements.errLog.textContent = '';
+      errLog.textContent = '';
       break;
   }
 };
 
 export const renderModal = (state, elem) => {
-  const elements = elem;
+  const { modalTitle, modalBody, modalFooter } = elem;
   const index = state.modalIndex;
-  elements.modalTitle.textContent = state.posts[index].title;
-  elements.modalBody.textContent = state.posts[index].description;
-  elements.modalFooter.setAttribute('href', state.posts[index].link);
+  modalTitle.textContent = state.posts[index].title;
+  modalBody.textContent = state.posts[index].description;
+  modalFooter.setAttribute('href', state.posts[index].link);
 };
