@@ -12,7 +12,7 @@ export default (data) => {
     const link = elem.children[2].textContent;
     const description = elem.children[3].textContent;
     posts.push({
-      title, link, description, viewed: false,
+      title, link, description,
     });
   });
 

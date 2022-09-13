@@ -8,18 +8,8 @@ const schema = (url, RSS) => yup
   .validate(url);
 
 const validate = (state) => {
-  const st = state;
   const { RSS } = state;
   const url = state.form.value;
-
-  schema(url, RSS)
-    .then(() => {
-      st.form.log = null;
-      st.form.valid = true;
-    })
-    .catch((err) => {
-      st.form.log = err.errors.toString();
-      st.form.valid = false;
-    });
+  return schema(url, RSS);
 };
 export default validate;

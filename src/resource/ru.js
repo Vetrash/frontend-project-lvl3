@@ -1,5 +1,7 @@
 export default {
   translation: {
+    feeds: 'Фиды',
+    posts: 'Посты',
     error: {
       invalid: 'Ссылка должна быть валидным URL',
       dublication: 'RSS уже существует',

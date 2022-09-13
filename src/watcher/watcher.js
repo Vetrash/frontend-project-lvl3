@@ -18,10 +18,12 @@ export default (state, elements) => onChange(state, (path) => {
       renderModal(state, elements);
       break;
     case 'form.log':
+    case 'status':
       renderLog(state, elements);
       break;
     case 'form.value':
       break;
+    case 'updatePost':
     case 'RSS':
       break;
     case 'form.valid':

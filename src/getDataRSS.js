@@ -4,8 +4,9 @@ import containsObject from './containsObject.js';
 
 const getProxyUrl = (url) => new URL(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`);
 
-export default (state, url) => {
+const getData = async (state, url) => {
   const st = state;
+
   axios.get(getProxyUrl(url))
     .then((res) => {
       const { feed, posts } = parserRSS(res.data.contents);
@@ -14,13 +15,9 @@ export default (state, url) => {
       }
       posts.forEach((elem) => {
         if (!containsObject(elem.title, 'title', st.posts)) {
-          st.posts.push(elem);
+          st.posts.push({ ...elem, viewed: false });
         }
       });
-
-      if (st.form.log === 'sending') {
-        st.form.log = 'finished';
-      }
     })
     .catch((err) => {
       if (err.isParsingError) {
@@ -34,3 +31,5 @@ export default (state, url) => {
       }
     });
 };
+
+export default getData;

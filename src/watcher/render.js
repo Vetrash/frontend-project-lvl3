@@ -3,11 +3,11 @@ import i18n from 'i18next';
 export const renderValidate = (state, elem) => {
   const { input } = elem;
   const { valid } = state.form;
-  if (valid === true) {
+  if (valid === false) {
+    input.classList.add('border', 'border-3', 'border-danger');
+  } else {
     input.classList.remove('border', 'border-3', 'border-danger');
     input.focus();
-  } else {
-    input.classList.add('border', 'border-3', 'border-danger');
   }
 };
 
@@ -60,7 +60,7 @@ export const renderFeeds = (state) => {
   feed.textContent = '';
   const h2 = document.createElement('h2');
   h2.classList.add('card-title', 'h4');
-  h2.textContent = 'Фиды';
+  h2.textContent = i18n.t('feeds');
   feed.appendChild(h2);
   feed.appendChild(getList(feeds, 'feed'));
 };
@@ -72,7 +72,7 @@ export const renderPosts = (state) => {
   post.textContent = '';
   const h2 = document.createElement('h2');
   h2.classList.add('card-title', 'h4', 'rounded-0');
-  h2.textContent = 'Посты';
+  h2.textContent = i18n.t('posts');
   post.appendChild(h2);
   const list = getList(posts, 'post');
   post.appendChild(list);
@@ -81,28 +81,37 @@ export const renderPosts = (state) => {
 export const renderLog = (state, elem) => {
   const { errLog } = elem;
   const typeLog = state.form.log;
+  const { status } = state;
   errLog.classList.remove('text-success', 'text-warning', 'text-danger');
-  switch (typeLog) {
-    case 'sending':
-      errLog.classList.add('text-warning');
-      errLog.textContent = i18n.t(`processState.${typeLog}`);
-      break;
-    case 'finished':
-      errLog.classList.add('text-success');
-      errLog.textContent = i18n.t(`processState.${typeLog}`);
-      break;
-    case 'invalid':
-    case 'dublication':
-    case 'problemsNetwork':
-    case 'notFound':
-    case 'UnknownError':
-    case 'ErrorParser':
-      errLog.classList.add('text-danger');
-      errLog.textContent = i18n.t(`error.${typeLog}`);
-      break;
-    default:
-      errLog.textContent = '';
-      break;
+  if (typeLog === null) {
+    switch (status) {
+      case 'sending':
+        errLog.classList.add('text-warning');
+        errLog.textContent = i18n.t(`processState.${status}`);
+        break;
+      case 'finished':
+        errLog.classList.add('text-success');
+        errLog.textContent = i18n.t(`processState.${status}`);
+        break;
+      default:
+        errLog.textContent = '';
+        break;
+    }
+  } else {
+    switch (typeLog) {
+      case 'invalid':
+      case 'dublication':
+      case 'problemsNetwork':
+      case 'notFound':
+      case 'ErrorParser':
+        errLog.classList.add('text-danger');
+        errLog.textContent = i18n.t(`error.${typeLog}`);
+        break;
+      default:
+        errLog.classList.add('text-danger');
+        errLog.textContent = i18n.t('error.UnknownError');
+        break;
+    }
   }
 };
 

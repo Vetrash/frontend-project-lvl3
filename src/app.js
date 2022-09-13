@@ -16,6 +16,8 @@ export default () => {
     posts: [],
     RSS: [],
     modalIndex: 0,
+    status: 'sleep',
+    updatePost: 'sleep',
   };
   const elements = {
     form: document.querySelector('.rss-form'),
@@ -36,15 +38,32 @@ export default () => {
   });
   const UpdateInput = (e) => {
     watchedState.form.value = e.target.value;
-    validate(watchedState);
+    if (e.target.value === '') {
+      watchedState.form.log = null;
+      watchedState.form.valid = null;
+    } else {
+      validate(watchedState)
+        .then(() => {
+          watchedState.form.log = null;
+          watchedState.form.valid = true;
+        })
+        .catch((err) => {
+          watchedState.form.log = err.errors.toString();
+          watchedState.form.valid = false;
+        });
+    }
   };
   elements.input.addEventListener('input', UpdateInput);
 
   const updatePosts = () => {
-    watchedState.RSS.forEach((elem) => {
-      getDataRSS(watchedState, elem);
-    });
-    setTimeout(updatePosts, 5000);
+    Promise.all(watchedState.RSS.map((url) => getDataRSS(watchedState, url)))
+      .then(() => {
+        watchedState.status = 'finished';
+        setTimeout(updatePosts, 5000);
+        if (watchedState.updatePost === 'sleep') {
+          watchedState.updatePost = 'work';
+        }
+      });
   };
 
   const submit = (e) => {
@@ -52,10 +71,13 @@ export default () => {
     if (watchedState.form.valid === true) {
       elements.input.value = '';
       watchedState.RSS.push(state.form.value);
-      watchedState.form.log = 'sending';
-      getDataRSS(watchedState, watchedState.form.value);
+      watchedState.form.log = null;
+      watchedState.status = 'sending';
+      getDataRSS(watchedState, state.form.value);
     }
-    setTimeout(updatePosts, 5000);
+    if (watchedState.updatePost === 'sleep') {
+      updatePosts();
+    }
   };
   elements.form.addEventListener('submit', submit);
 };
