@@ -1,6 +1,12 @@
 export default (data) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(data, 'application/xml');
+  const parseError = doc.querySelector('parsererror');
+  if (parseError) {
+    const error = new Error();
+    error.isParsingError = true;
+    throw error;
+  }
   const item = Array.from(doc.querySelectorAll('item'));
   const feedTitle = doc.querySelector('title').textContent;
   const feedDescription = doc.querySelector('description').textContent;
@@ -8,20 +14,12 @@ export default (data) => {
 
   const posts = [];
   item.forEach((elem) => {
-    const title = elem.children[0].textContent;
-    const link = elem.children[2].textContent;
-    const description = elem.children[3].textContent;
+    const title = elem.querySelector('title').textContent;
+    const link = elem.querySelector('link').textContent;
+    const description = elem.querySelector('description').textContent;
     posts.push({
       title, link, description,
     });
   });
-
-  const parseError = doc.querySelector('parsererror');
-  if (parseError) {
-    const error = new Error();
-    error.isParsingError = true;
-    throw error;
-  }
-
   return { feed, posts };
 };

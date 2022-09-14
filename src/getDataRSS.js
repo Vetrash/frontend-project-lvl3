@@ -7,7 +7,7 @@ const getProxyUrl = (url) => new URL(`https://allorigins.hexlet.app/get?disableC
 const getData = async (state, url) => {
   const st = state;
 
-  axios.get(getProxyUrl(url))
+  return axios.get(getProxyUrl(url))
     .then((res) => {
       const { feed, posts } = parserRSS(res.data.contents);
       if (!containsObject(feed.title, 'title', st.feeds)) {
@@ -18,18 +18,9 @@ const getData = async (state, url) => {
           st.posts.push({ ...elem, viewed: false });
         }
       });
+      return { status: 'succes' };
     })
-    .catch((err) => {
-      if (err.isParsingError) {
-        st.form.log = 'ErrorParser';
-      } else if (err.response) {
-        st.form.log = 'problemsNetwork';
-      } else if (err.request) {
-        st.form.log = 'problemsNetwork';
-      } else {
-        st.form.log = 'notFound';
-      }
-    });
+    .catch((err) => err);
 };
 
 export default getData;

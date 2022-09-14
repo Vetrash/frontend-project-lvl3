@@ -85,10 +85,6 @@ export const renderLog = (state, elem) => {
   errLog.classList.remove('text-success', 'text-warning', 'text-danger');
   if (typeLog === null) {
     switch (status) {
-      case 'sending':
-        errLog.classList.add('text-warning');
-        errLog.textContent = i18n.t(`processState.${status}`);
-        break;
       case 'finished':
         errLog.classList.add('text-success');
         errLog.textContent = i18n.t(`processState.${status}`);
@@ -100,7 +96,7 @@ export const renderLog = (state, elem) => {
   } else {
     switch (typeLog) {
       case 'invalid':
-      case 'dublication':
+      case 'duplicate':
       case 'problemsNetwork':
       case 'notFound':
       case 'ErrorParser':

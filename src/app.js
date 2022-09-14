@@ -57,11 +57,28 @@ export default () => {
 
   const updatePosts = () => {
     Promise.all(watchedState.RSS.map((url) => getDataRSS(watchedState, url)))
-      .then(() => {
-        watchedState.status = 'finished';
-        setTimeout(updatePosts, 5000);
-        if (watchedState.updatePost === 'sleep') {
-          watchedState.updatePost = 'work';
+      .then((arrPromise) => {
+        arrPromise.forEach((elem) => {
+          if (elem.status === 'succes') { return; }
+          if (elem.isParsingError) {
+            watchedState.form.log = 'notFound';
+          } else if (elem.response || elem.request) {
+            watchedState.form.log = 'problemsNetwork';
+          } else {
+            watchedState.form.log = 'UnknownError';
+          }
+        });
+        if (watchedState.form.log !== null) {
+          watchedState.status = 'failed';
+          if (watchedState.form.log === 'notFound') {
+            watchedState.RSS.splice(-1, 1);
+          }
+        } else {
+          watchedState.status = 'finished';
+          setTimeout(updatePosts, 5000);
+          if (watchedState.updatePost === 'sleep') {
+            watchedState.updatePost = 'work';
+          }
         }
       });
   };
@@ -69,11 +86,13 @@ export default () => {
   const submit = (e) => {
     e.preventDefault();
     if (watchedState.form.valid === true) {
-      elements.input.value = '';
       watchedState.RSS.push(state.form.value);
       watchedState.form.log = null;
       watchedState.status = 'sending';
-      getDataRSS(watchedState, state.form.value);
+      getDataRSS(watchedState, state.form.value)
+        .then(() => {
+          elements.input.value = '';
+        });
     }
     if (watchedState.updatePost === 'sleep') {
       updatePosts();

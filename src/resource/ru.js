@@ -4,7 +4,7 @@ export default {
     posts: 'Посты',
     error: {
       invalid: 'Ссылка должна быть валидным URL',
-      dublication: 'RSS уже существует',
+      duplicate: 'RSS уже существует',
       problemsNetwork: 'Ошибка сети',
       notFound: 'Ресурс не содержит валидный RSS',
       ErrorParser: 'Ошибка парсера RSS',

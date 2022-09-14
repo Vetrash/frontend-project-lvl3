@@ -1,15 +1,14 @@
 import * as yup from 'yup';
 
-const schema = (url, RSS) => yup
+const schema = (RSS) => yup
   .string()
   .url('invalid')
   .required('')
-  .notOneOf(RSS, 'dublication')
-  .validate(url);
+  .notOneOf(RSS, 'duplicate');
 
-const validate = (state) => {
+const validator = (state) => {
   const { RSS } = state;
   const url = state.form.value;
-  return schema(url, RSS);
+  return schema(RSS).validate(url);
 };
-export default validate;
+export default validator;
