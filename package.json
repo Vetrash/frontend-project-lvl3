@@ -41,6 +41,7 @@
     "dom-parser": "^0.1.6",
     "eslint-config-airbnb-base": "^15.0.0",
     "i18next": "^21.8.16",
+    "lodash": "^4.17.21",
     "melanke-watchjs": "^1.5.2",
     "on-change": "^4.0.1",
     "yup": "^0.32.11"

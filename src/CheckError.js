@@ -7,7 +7,6 @@ const CheckError = (elem) => {
   } else {
     result = 'UnknownError';
   }
-  const status = result === null ? 'succes' : 'fail';
-  return { status, err: result };
+  return result;
 };
 export default CheckError;

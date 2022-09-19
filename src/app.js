@@ -18,7 +18,6 @@ export default () => {
     modalIndex: -1,
     status: 'sleep',
     UI: [],
-    lastId: 0,
   };
   const elements = {
     form: document.querySelector('.rss-form'),
@@ -36,7 +35,7 @@ export default () => {
     const id = button.getAttribute('data-id');
     const index = watchedState.posts.findIndex((elem) => elem.id === Number(id));
     watchedState.modalIndex = index;
-    watchedState.UI.push({ id, status: 'viewed' });
+    watchedState.UI.push(id);
   });
   const UpdateInput = (e) => {
     watchedState.form.value = e.target.value;
@@ -58,27 +57,20 @@ export default () => {
   elements.input.addEventListener('input', UpdateInput);
 
   const updatePosts = () => {
-    if (watchedState.RSS.length === 0) {
-      setTimeout(updatePosts, 5000);
-      return;
-    }
     Promise.all(watchedState.RSS.map((url) => getDataRSS(watchedState, url)))
-      .then((arrPromise) => {
-        arrPromise.forEach((elem) => {
-          watchedState.form.log = elem.err;
-        });
+      .then(() => {
         if (watchedState.form.log !== null) {
           watchedState.status = 'failed';
-          if (watchedState.form.log === 'notFound') {
-            watchedState.RSS.splice(-1, 1);
-          }
-        } else {
+        } else if (watchedState.status === 'sending') {
           watchedState.status = 'finished';
         }
+      })
+      .finally(() => {
+        console.log(watchedState.form.log);
+        setTimeout(() => updatePosts(), 5000);
       });
-    setTimeout(updatePosts, 5000);
   };
-  updatePosts();
+  setTimeout(() => updatePosts(), 5000);
   const submit = (e) => {
     e.preventDefault();
     if (watchedState.form.valid === true) {
@@ -89,8 +81,13 @@ export default () => {
         .then((res) => {
           if (res.status === 'succes') {
             elements.input.value = '';
-          } else {
-            watchedState.form.log = res.err;
+            watchedState.status = 'finished';
+          }
+          if (watchedState.form.log !== null) {
+            watchedState.status = 'failed';
+            if (watchedState.form.log === 'notFound') {
+              watchedState.RSS.splice(-1, 1);
+            }
           }
         });
     }

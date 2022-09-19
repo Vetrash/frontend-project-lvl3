@@ -21,7 +21,7 @@ const getList = (items, type, UI) => {
     if (type === 'post') {
       li.classList.add('d-flex', 'justify-content-between', 'align-items-start');
       const a = document.createElement('a');
-      const itemViewed = UI.findIndex((elem) => Number(elem.id) === item.id);
+      const itemViewed = UI.findIndex((elem) => Number(elem) === item.id);
       if (itemViewed === -1) {
         a.classList.add('fw-bold');
       } else {

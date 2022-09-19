@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 import parserRSS from './parserRSS.js';
 import containsObject from './containsObject.js';
 import CheckError from './CheckError.js';
@@ -6,8 +7,7 @@ import CheckError from './CheckError.js';
 const getProxyUrl = (url) => new URL(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`);
 
 const getData = async (state, url) => {
-  const { feeds, posts } = state;
-  const st = state;
+  const { feeds, posts, form } = state;
   return axios.get(getProxyUrl(url))
     .then((res) => {
       const { parsFeed, ParsPosts } = parserRSS(res.data.contents);
@@ -16,13 +16,15 @@ const getData = async (state, url) => {
       }
       ParsPosts.forEach((elem) => {
         if (!containsObject(elem.title, 'title', posts)) {
-          st.lastId += 1;
-          posts.push({ ...elem, id: st.lastId });
+          posts.push({ ...elem, id: Number(_.uniqueId()) });
         }
       });
-      return { status: 'succes', err: null };
+      return { status: 'succes' };
     })
-    .catch((err) => CheckError(err));
+    .catch((err) => {
+      form.log = CheckError(err);
+      return { status: 'fail' };
+    });
 };
 
 export default getData;
