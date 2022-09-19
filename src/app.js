@@ -77,16 +77,15 @@ export default () => {
       watchedState.form.log = null;
       watchedState.status = 'sending';
       getDataRSS(watchedState, state.form.value)
-        .then((res) => {
-          if (res.status === 'succes') {
-            elements.input.value = '';
-            watchedState.status = 'finished';
-          }
+        .then(() => {
           if (watchedState.form.log !== null) {
             watchedState.status = 'failed';
             if (watchedState.form.log === 'notFound') {
               watchedState.RSS.splice(-1, 1);
             }
+          } else {
+            elements.input.value = '';
+            watchedState.status = 'finished';
           }
         });
     }

@@ -19,11 +19,9 @@ const getData = async (state, url) => {
           posts.push({ ...elem, id: Number(_.uniqueId()) });
         }
       });
-      return { status: 'succes' };
     })
     .catch((err) => {
       form.log = CheckError(err);
-      return { status: 'fail' };
     });
 };
 
