@@ -11,17 +11,18 @@ export const renderValidate = (state, elem) => {
   }
 };
 
-const getList = (items, type) => {
+const getList = (items, type, UI) => {
   const ul = document.createElement('ul');
   ul.classList.add('list-group', 'border-0', 'rounded-0');
   if (items.length === 0 || !(['post', 'feed'].includes(type))) { return ul; }
-  items.forEach((item, index) => {
+  items.forEach((item) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'border-0', 'border-end-0');
     if (type === 'post') {
       li.classList.add('d-flex', 'justify-content-between', 'align-items-start');
       const a = document.createElement('a');
-      if (item.viewed === false) {
+      const itemViewed = UI.findIndex((elem) => Number(elem.id) === item.id);
+      if (itemViewed === -1) {
         a.classList.add('fw-bold');
       } else {
         a.classList.add('fw-normal', 'link-secondary');
@@ -31,7 +32,7 @@ const getList = (items, type) => {
       const button = document.createElement('button');
       button.setAttribute('type', 'button');
       button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
-      button.setAttribute('data-id', index);
+      button.setAttribute('data-id', item.id);
       button.setAttribute('data-bs-toggle', 'modal');
       button.setAttribute('data-bs-target', '#modal');
       button.textContent = 'Просмотр';
@@ -62,7 +63,7 @@ export const renderFeeds = (state) => {
   h2.classList.add('card-title', 'h4');
   h2.textContent = i18n.t('feeds');
   feed.appendChild(h2);
-  feed.appendChild(getList(feeds, 'feed'));
+  feed.appendChild(getList(feeds, 'feed', state.UI));
 };
 
 export const renderPosts = (state) => {
@@ -74,7 +75,7 @@ export const renderPosts = (state) => {
   h2.classList.add('card-title', 'h4', 'rounded-0');
   h2.textContent = i18n.t('posts');
   post.appendChild(h2);
-  const list = getList(posts, 'post');
+  const list = getList(posts, 'post', state.UI);
   post.appendChild(list);
 };
 

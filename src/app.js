@@ -15,9 +15,10 @@ export default () => {
     feeds: [],
     posts: [],
     RSS: [],
-    modalIndex: 0,
+    modalIndex: -1,
     status: 'sleep',
-    updatePost: 'sleep',
+    UI: [],
+    lastId: 0,
   };
   const elements = {
     form: document.querySelector('.rss-form'),
@@ -32,9 +33,10 @@ export default () => {
 
   elements.exampleModal.addEventListener('show.bs.modal', (event) => {
     const button = event.relatedTarget;
-    const index = button.getAttribute('data-id');
+    const id = button.getAttribute('data-id');
+    const index = watchedState.posts.findIndex((elem) => elem.id === Number(id));
     watchedState.modalIndex = index;
-    watchedState.posts[index].viewed = true;
+    watchedState.UI.push({ id, status: 'viewed' });
   });
   const UpdateInput = (e) => {
     watchedState.form.value = e.target.value;
@@ -56,17 +58,14 @@ export default () => {
   elements.input.addEventListener('input', UpdateInput);
 
   const updatePosts = () => {
+    if (watchedState.RSS.length === 0) {
+      setTimeout(updatePosts, 5000);
+      return;
+    }
     Promise.all(watchedState.RSS.map((url) => getDataRSS(watchedState, url)))
       .then((arrPromise) => {
         arrPromise.forEach((elem) => {
-          if (elem.status === 'succes') { return; }
-          if (elem.isParsingError) {
-            watchedState.form.log = 'notFound';
-          } else if (elem.response || elem.request) {
-            watchedState.form.log = 'problemsNetwork';
-          } else {
-            watchedState.form.log = 'UnknownError';
-          }
+          watchedState.form.log = elem.err;
         });
         if (watchedState.form.log !== null) {
           watchedState.status = 'failed';
@@ -75,14 +74,11 @@ export default () => {
           }
         } else {
           watchedState.status = 'finished';
-          setTimeout(updatePosts, 5000);
-          if (watchedState.updatePost === 'sleep') {
-            watchedState.updatePost = 'work';
-          }
         }
       });
+    setTimeout(updatePosts, 5000);
   };
-
+  updatePosts();
   const submit = (e) => {
     e.preventDefault();
     if (watchedState.form.valid === true) {
@@ -90,12 +86,13 @@ export default () => {
       watchedState.form.log = null;
       watchedState.status = 'sending';
       getDataRSS(watchedState, state.form.value)
-        .then(() => {
-          elements.input.value = '';
+        .then((res) => {
+          if (res.status === 'succes') {
+            elements.input.value = '';
+          } else {
+            watchedState.form.log = res.err;
+          }
         });
-    }
-    if (watchedState.updatePost === 'sleep') {
-      updatePosts();
     }
   };
   elements.form.addEventListener('submit', submit);

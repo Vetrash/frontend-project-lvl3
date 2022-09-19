@@ -21,5 +21,5 @@ export default (data) => {
       title, link, description,
     });
   });
-  return { feed, posts };
+  return { parsFeed: feed, ParsPosts: posts };
 };

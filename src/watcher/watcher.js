@@ -5,13 +5,13 @@ import {
 } from './render.js';
 
 export default (state, elements) => onChange(state, (path) => {
-  const { modalIndex } = state;
   switch (path) {
     case 'feeds':
       renderFeeds(state);
       break;
     case 'posts':
-    case `posts.${modalIndex}.viewed`:
+    case 'UI':
+    case 'lastId':
       renderPosts(state);
       break;
     case 'modalIndex':

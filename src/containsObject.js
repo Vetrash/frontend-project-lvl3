@@ -1,9 +1,5 @@
 export default (value, key, list) => {
-  let solution = false;
-  list.forEach((elem) => {
-    if (elem[key] === value) {
-      solution = true;
-    }
-  });
+  const index = list.findIndex((elem) => elem[key] === value);
+  const solution = index !== -1;
   return solution;
 };
