@@ -66,7 +66,6 @@ export default () => {
         }
       })
       .finally(() => {
-        console.log(watchedState.form.log);
         setTimeout(() => updatePosts(), 5000);
       });
   };
