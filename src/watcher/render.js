@@ -3,15 +3,20 @@ import i18n from 'i18next';
 export const renderValidate = (state, elem) => {
   const { input } = elem;
   const { valid } = state.form;
-  if (valid === false) {
+  if (!valid) {
     input.classList.add('border', 'border-3', 'border-danger');
   } else {
     input.classList.remove('border', 'border-3', 'border-danger');
     input.focus();
   }
 };
+export const renderInput = (state, elem) => {
+  const { input } = elem;
+  const { value } = state.form;
+  input.value = value;
+};
 
-const getList = (items, type, UI) => {
+const getList = (items, type, readPosts) => {
   const ul = document.createElement('ul');
   ul.classList.add('list-group', 'border-0', 'rounded-0');
   if (items.length === 0 || !(['post', 'feed'].includes(type))) { return ul; }
@@ -21,7 +26,7 @@ const getList = (items, type, UI) => {
     if (type === 'post') {
       li.classList.add('d-flex', 'justify-content-between', 'align-items-start');
       const a = document.createElement('a');
-      const itemViewed = UI.findIndex((elem) => Number(elem) === item.id);
+      const itemViewed = readPosts.findIndex((elem) => Number(elem) === item.id);
       if (itemViewed === -1) {
         a.classList.add('fw-bold');
       } else {
@@ -35,7 +40,7 @@ const getList = (items, type, UI) => {
       button.setAttribute('data-id', item.id);
       button.setAttribute('data-bs-toggle', 'modal');
       button.setAttribute('data-bs-target', '#modal');
-      button.textContent = 'Просмотр';
+      button.textContent = i18n.t('view');
       li.appendChild(a);
       li.appendChild(button);
     }
@@ -63,7 +68,7 @@ export const renderFeeds = (state) => {
   h2.classList.add('card-title', 'h4');
   h2.textContent = i18n.t('feeds');
   feed.appendChild(h2);
-  feed.appendChild(getList(feeds, 'feed', state.UI));
+  feed.appendChild(getList(feeds, 'feed', state.readPosts));
 };
 
 export const renderPosts = (state) => {
@@ -75,7 +80,7 @@ export const renderPosts = (state) => {
   h2.classList.add('card-title', 'h4', 'rounded-0');
   h2.textContent = i18n.t('posts');
   post.appendChild(h2);
-  const list = getList(posts, 'post', state.UI);
+  const list = getList(posts, 'post', state.readPosts);
   post.appendChild(list);
 };
 

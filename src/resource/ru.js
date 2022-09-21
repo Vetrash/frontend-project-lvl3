@@ -2,6 +2,7 @@ export default {
   translation: {
     feeds: 'Фиды',
     posts: 'Посты',
+    view: 'Просмотр',
     error: {
       invalid: 'Ссылка должна быть валидным URL',
       duplicate: 'RSS уже существует',

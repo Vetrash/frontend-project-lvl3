@@ -17,7 +17,7 @@ export default () => {
     RSS: [],
     modalIndex: -1,
     status: 'sleep',
-    UI: [],
+    readPosts: [],
   };
   const elements = {
     form: document.querySelector('.rss-form'),
@@ -35,7 +35,7 @@ export default () => {
     const id = button.getAttribute('data-id');
     const index = watchedState.posts.findIndex((elem) => elem.id === Number(id));
     watchedState.modalIndex = index;
-    watchedState.UI.push(id);
+    watchedState.readPosts.push(id);
   });
   const UpdateInput = (e) => {
     watchedState.form.value = e.target.value;
@@ -84,7 +84,7 @@ export default () => {
               watchedState.RSS.splice(-1, 1);
             }
           } else {
-            elements.input.value = '';
+            watchedState.form.value = '';
             watchedState.status = 'finished';
           }
         });

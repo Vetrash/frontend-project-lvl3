@@ -1,7 +1,7 @@
 import onChange from 'on-change';
 
 import {
-  renderValidate, renderFeeds, renderPosts, renderLog, renderModal,
+  renderValidate, renderFeeds, renderPosts, renderLog, renderModal, renderInput,
 } from './render.js';
 
 export default (state, elements) => onChange(state, (path) => {
@@ -10,7 +10,7 @@ export default (state, elements) => onChange(state, (path) => {
       renderFeeds(state);
       break;
     case 'posts':
-    case 'UI':
+    case 'readPosts':
     case 'lastId':
       renderPosts(state);
       break;
@@ -22,6 +22,7 @@ export default (state, elements) => onChange(state, (path) => {
       renderLog(state, elements);
       break;
     case 'form.value':
+      renderInput(state, elements);
       break;
     case 'updatePost':
     case 'RSS':
